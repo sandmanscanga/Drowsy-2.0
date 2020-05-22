@@ -6,8 +6,7 @@ def get_rows():
     creds = {
         "user": "root",
         "passwd": "topsecret",
-        "host": "db",
-        "db": "mysql"
+        "host": "db"
     }
     db = MySQLdb.connect(**creds)
     c = db.cursor()
