@@ -1,32 +1,25 @@
-from flask import Flask, render_template
-import MySQLdb
-import os
+from flask import Flask, render_template, request
 from database.db_prep import db_prep
-from database.db_creds import USER_CREDS
+from database.db_search import db_search
 
 db_prep(250)
-
-
-def get_results():
-    try:
-        db = MySQLdb.connect(**USER_CREDS)
-        c = db.cursor()
-        c.execute("select first_name, last_name from users;")
-        results = [f"{row[0]} {row[1]}" for row in c.fetchall()]
-        db.close()
-    except MySQLdb._exceptions.OperationalError as e:
-        raise e
-    else:
-        return results
-
 
 app = Flask(__name__)
 
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def index():
-    results = get_results()
-    return render_template("index.html", results=results)
+    return render_template("index.html")
+
+
+@app.route("/search-post", methods=["GET", "POST"])
+def search_post():
+    if request.method == "POST":
+        query = request.form.get("id")
+        if query:
+            result = db_search(query, by_name=False)
+            return render_template("search_post.html", result=result)
+    return render_template("search_post.html")
 
 
 if __name__ == "__main__":
