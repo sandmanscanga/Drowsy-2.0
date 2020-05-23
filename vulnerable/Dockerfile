@@ -1,13 +1,18 @@
 FROM python:3
 
+WORKDIR /usr/src/vulnerable
+
+COPY requirements.txt               .
+
+COPY app/app.py                     app/
+COPY app/templates/index.html       app/templates/
+
+COPY app/database/db_prep.py        app/database/
+COPY app/database/db_creds.py       app/database/
+COPY app/database/creds/root.json   app/database/creds/
+COPY app/database/creds/user.json   app/database/creds/
+
 RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r requirements.txt
 
-COPY requirements.txt /usr/src/app/
-RUN pip install --no-cache-dir -r /usr/src/app/requirements.txt
-
-COPY temporary/app.py /usr/src/app/
-COPY temporary/templates/index.html /usr/src/app/templates/
-
-EXPOSE 5000
-
-CMD ["python", "/usr/src/app/app.py"]
+CMD ["python", "app/app.py"]
