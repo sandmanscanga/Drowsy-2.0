@@ -2,7 +2,7 @@ import MySQLdb
 from database.db_creds import USER_CREDS
 
 
-def search_database(query, by_name=True):
+def db_search(query, by_name=True):
     try:
         db = MySQLdb.connect(**USER_CREDS)
         c = db.cursor()
