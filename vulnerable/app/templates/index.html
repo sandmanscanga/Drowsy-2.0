@@ -1,15 +1,5 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
-    <title>Testing</title>
-  </head>
-  <body>
-    <div class="container">
-      <h1>The results are in!</h1>
-      {% for result in results %}
-        <p>{{ result }}</p>
-      {% endfor %}
-    </div>
-  </body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+  <h1 class="display-3">Welcome</h1>
+  <p class="lead pt-3">This is the front page...</p>
+{% endblock content %}
