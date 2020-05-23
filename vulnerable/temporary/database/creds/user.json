@@ -1,0 +1,7 @@
+{
+    "host": "db",
+    "user": "vuln_user",
+    "password": "insecure",
+    "database": "vuln_db",
+    "autocommit": true
+}
