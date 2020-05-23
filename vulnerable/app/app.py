@@ -4,7 +4,7 @@ import os
 from database.db_prep import db_prep
 from database.db_creds import USER_CREDS
 
-db_prep()
+db_prep(250)
 
 
 def get_results():

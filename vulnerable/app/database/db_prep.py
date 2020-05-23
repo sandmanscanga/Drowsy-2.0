@@ -1,6 +1,7 @@
 import MySQLdb
 import time
 from database.db_creds import ROOT_CREDS, USER_CREDS
+from database.db_data import load_users
 
 
 def wait_for_service(max_wait_time=20):
@@ -35,7 +36,7 @@ def reinit_db():
         raise e
 
 
-def populate_db(users):
+def populate_db(db_size):
     try:
         db = MySQLdb.connect(**USER_CREDS)
         c = db.cursor()
@@ -47,6 +48,7 @@ CREATE TABLE users(
     password VARCHAR(1000) NOT NULL
 );
         """)
+        users = load_users(db_size)
         for user in users:
             c.execute("INSERT INTO users VALUES %s;" % user)
         db.close()
@@ -54,20 +56,7 @@ CREATE TABLE users(
         raise e
 
 
-def db_prep():
+def db_prep(db_size):
     wait_for_service()
     reinit_db()
-    raw_users = (
-        ("John", "Doe", "password123"),
-        ("Jane", "Smith", "letmein"),
-        ("Peter", "Pan", "secret")
-    )
-    users = []
-    for i, u in enumerate(raw_users):
-        row = (i+1, repr(u[0]), repr(u[1]), repr(u[2]))
-        users.append("(%d, %s, %s, %s)" % row)
-    populate_db(users)
-
-
-if __name__ == "__main__":
-    db_prep()
+    populate_db(db_size)
