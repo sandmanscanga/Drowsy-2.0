@@ -6,7 +6,9 @@
   <body>
     <div class="container">
       <h1>The results are in!</h1>
-      <p>{{ result }}</p>
+      {% for result in results %}
+        <p>{{ result }}</p>
+      {% endfor %}
     </div>
   </body>
 </html>
