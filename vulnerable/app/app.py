@@ -25,7 +25,7 @@ def search_get():
             _query = query_dict.get("last_name")
             query = unquote_plus(_query)
             if query:
-                result = search_database(query)
+                result = db_search(query)
                 return render_template("search_get.html", result=result)
     return render_template("search_get.html")
 
@@ -42,7 +42,7 @@ def search_get_blind():
             _query = query_dict.get("id")
             query = unquote_plus(_query)
             if query:
-                result = search_database(query, by_name=False)
+                result = db_search(query, by_name=False)
     return render_template("search_get_blind.html")
 
 
@@ -61,7 +61,7 @@ def search_post_blind():
     if request.method == "POST":
         query = request.form.get("last_name")
         if query:
-            result = search_database(query)
+            result = db_search(query)
     return render_template("search_post_blind.html")
 
 
