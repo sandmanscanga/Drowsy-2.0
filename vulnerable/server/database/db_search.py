@@ -1,5 +1,5 @@
 import MySQLdb
-from database.db_creds import USER_CREDS
+from server.database.db_creds import USER_CREDS
 
 
 def db_search(query, by_name=True):

@@ -1,19 +1,15 @@
-from flask import Flask, render_template, request
+from flask import render_template, request
 from urllib.parse import unquote_plus
-from database.db_prep import db_prep
-from database.db_search import db_search
-
-db_prep(250)
-
-app = Flask(__name__)
+from server.vuln.blueprint import vulns
+from server.database.db_search import db_search
 
 
-@app.route("/", methods=["GET"])
+@vulns.route("/", methods=["GET"])
 def index():
     return render_template("index.html")
 
 
-@app.route("/search-get", methods=["GET"])
+@vulns.route("/search-get", methods=["GET"])
 def search_get():
     if request.method == "GET" and request.query_string:
         raw_query = request.query_string.decode("utf-8")
@@ -30,7 +26,7 @@ def search_get():
     return render_template("search_get.html")
 
 
-@app.route("/search-get-blind", methods=["GET"])
+@vulns.route("/search-get-blind", methods=["GET"])
 def search_get_blind():
     if request.method == "GET" and request.query_string:
         raw_query = request.query_string.decode("utf-8")
@@ -46,7 +42,7 @@ def search_get_blind():
     return render_template("search_get_blind.html")
 
 
-@app.route("/search-post", methods=["GET", "POST"])
+@vulns.route("/search-post", methods=["GET", "POST"])
 def search_post():
     if request.method == "POST":
         query = request.form.get("id")
@@ -56,14 +52,10 @@ def search_post():
     return render_template("search_post.html")
 
 
-@app.route("/search-post-blind", methods=["GET", "POST"])
+@vulns.route("/search-post-blind", methods=["GET", "POST"])
 def search_post_blind():
     if request.method == "POST":
         query = request.form.get("last_name")
         if query:
             result = db_search(query)
     return render_template("search_post_blind.html")
-
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0")
