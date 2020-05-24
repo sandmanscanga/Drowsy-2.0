@@ -3,19 +3,21 @@ FROM python:3
 WORKDIR /usr/src/vulnerable
 
 COPY requirements.txt                           .
+COPY app.py                                     .
 
-COPY app/app.py                                 app/
-COPY app/templates/*                            app/templates/
+COPY server/main.py                             server/
+COPY server/vuln/*                              server/vuln/
+COPY server/templates/*                         server/templates/
 
-COPY app/static/favicon.png                     app/static/
-COPY app/static/css/*                           app/static/css/
-COPY app/static/js/*                            app/static/js/
+COPY server/static/favicon.png                  server/static/
+COPY server/static/css/*                        server/static/css/
+COPY server/static/js/*                         server/static/js/
 
-COPY app/database/db_*.py                       app/database/
-COPY app/database/creds/*                       app/database/creds/
-COPY app/database/wordlists/*                   app/database/wordlists/
+COPY server/database/db_*.py                    server/database/
+COPY server/database/creds/*                    server/database/creds/
+COPY server/database/wordlists/*                server/database/wordlists/
 
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
-CMD ["python", "app/app.py"]
+CMD ["python", "app.py"]
