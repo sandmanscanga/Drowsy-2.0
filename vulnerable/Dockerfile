@@ -13,7 +13,7 @@ COPY server/static/favicon.png                  server/static/
 COPY server/static/css/*                        server/static/css/
 COPY server/static/js/*                         server/static/js/
 
-COPY server/database/db_*.py                    server/database/
+COPY server/database/utils/*                    server/database/utils/
 COPY server/database/creds/*                    server/database/creds/
 COPY server/database/wordlists/*                server/database/wordlists/
 
