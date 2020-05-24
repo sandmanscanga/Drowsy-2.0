@@ -13,6 +13,8 @@ services:
   vulnerable:
     container_name: vulnerable
     build: ./vulnerable
+    volumes:
+      - ./volumes/vulnerable/logs:/usr/src/vulnerable/logs
     ports:
       - 18001:5000
     depends_on:
