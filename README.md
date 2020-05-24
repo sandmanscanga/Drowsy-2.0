@@ -19,7 +19,7 @@ cd Drowsy-2.0
 docker-compose up --build -d
 
 ## test the vulnerability manually
-#Visit localhost:18001 from your browser
+#Visit http://localhost:18001 from your browser
 
 ## stop the docker containers (when your finished)
 docker-compose down
