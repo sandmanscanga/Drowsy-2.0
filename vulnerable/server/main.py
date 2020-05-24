@@ -1,5 +1,5 @@
 from flask import Flask
-from server.database.db_prep import db_prep
+from server.database.utils.db_prep import db_prep
 
 
 def create_server(db_size):

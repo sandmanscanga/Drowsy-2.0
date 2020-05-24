@@ -1,7 +1,7 @@
 from flask import render_template, request
 from urllib.parse import unquote_plus
 from server.vuln.blueprint import vulns
-from server.database.db_search import db_search
+from server.database.utils.db_search import db_search
 
 
 @vulns.route("/", methods=["GET"])
