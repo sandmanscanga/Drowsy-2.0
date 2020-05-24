@@ -2,7 +2,7 @@ import random
 
 
 def _load_wordlist(filename):
-    filedirs = __file__.split("/")[:-1] + ["wordlists"]
+    filedirs = __file__.split("/")[:-1] + ["..", "wordlists"]
     filepath = "/".join(filedirs + [filename])
     with open(filepath, "r") as f:
         words = f.read().strip().split("\n")

@@ -1,7 +1,7 @@
 import MySQLdb
 import time
-from server.database.db_creds import ROOT_CREDS, USER_CREDS
-from server.database.db_data import load_users
+from server.database.utils.db_creds import ROOT_CREDS, USER_CREDS
+from server.database.utils.db_data import load_users
 
 
 def wait_for_service(max_wait_time=20):
