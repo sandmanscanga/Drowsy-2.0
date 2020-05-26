@@ -1,7 +1,9 @@
+"""Module used to run the vulnerable server"""
 from server.main import create_server
 
 
 def main(db_size=250):
+    """Creates an instance of and run the application"""
     app = create_server(db_size)
     app.run(host="0.0.0.0")
 
