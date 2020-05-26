@@ -1,4 +1,5 @@
 """Module containing the routes for the Flask application"""
+# pylint: disable=import-error
 from urllib.parse import unquote_plus
 from flask import render_template, request
 from server.vuln.blueprint import vulns

@@ -1,4 +1,5 @@
 """Module used to load the vuln blueprint"""
+# pylint: disable=import-outside-toplevel,import-error
 from flask import Flask
 from server.database.utils.db_prep import db_prep
 
