@@ -1,16 +1,19 @@
-from flask import render_template, request
+"""Module containing the routes for the Flask application"""
 from urllib.parse import unquote_plus
+from flask import render_template, request
 from server.vuln.blueprint import vulns
 from server.database.utils.db_search import db_search
 
 
 @vulns.route("/", methods=["GET"])
 def index():
+    """Renders the homepage"""
     return render_template("index.html")
 
 
 @vulns.route("/search-get", methods=["GET"])
 def search_get():
+    """Standard search using GET method by last_name"""
     if request.method == "GET" and request.query_string:
         raw_query = request.query_string.decode("utf-8")
         query_dict = {}
@@ -28,6 +31,7 @@ def search_get():
 
 @vulns.route("/search-get-blind", methods=["GET"])
 def search_get_blind():
+    """Blind search using GET method by id"""
     if request.method == "GET" and request.query_string:
         raw_query = request.query_string.decode("utf-8")
         query_dict = {}
@@ -38,12 +42,13 @@ def search_get_blind():
             _query = query_dict.get("id")
             query = unquote_plus(_query)
             if query:
-                result = db_search(query, by_name=False)
+                _ = db_search(query, by_name=False)
     return render_template("search_get_blind.html")
 
 
 @vulns.route("/search-post", methods=["GET", "POST"])
 def search_post():
+    """Standard search using POST method by id"""
     if request.method == "POST":
         query = request.form.get("id")
         if query:
@@ -54,8 +59,9 @@ def search_post():
 
 @vulns.route("/search-post-blind", methods=["GET", "POST"])
 def search_post_blind():
+    """Blind search using POST method by last_name"""
     if request.method == "POST":
         query = request.form.get("last_name")
         if query:
-            result = db_search(query)
+            _ = db_search(query)
     return render_template("search_post_blind.html")
