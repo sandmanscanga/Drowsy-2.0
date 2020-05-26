@@ -1,7 +1,12 @@
-from server.logger.handlers import *
+"""Module for handling the main logger class"""
+# pylint: disable=import-error
+import logging
+from server.logger.handlers import (
+    DebugHandler, StdoutHandler, StderrHandler)
 
 
-class Logger(object):
+class Logger:
+    """Class the defines instances of the logger"""
 
     _RUNNING = None
 
@@ -27,24 +32,31 @@ class Logger(object):
         return self.level
 
     def get_logger(self, alias):
+        """Returns a child logger from the parent"""
         return Logger(".".join((self.alias, alias)))
 
     def initlog(self):
+        """Writes a log that should always be the first log"""
         self.logger.log(1, "INITLOG  |  %s", repr(self))
 
     def debug(self, *args, **kwargs):
+        """Overloaded debug log function"""
         self.logger.debug(*args, **kwargs)
 
     def info(self, *args, **kwargs):
+        """Overloaded info log function"""
         self.logger.info(*args, **kwargs)
 
     def warn(self, *args, **kwargs):
+        """Overloaded warning log function"""
         self.logger.warning(*args, **kwargs)
 
     def error(self, *args, **kwargs):
+        """Overloaded error log function"""
         self.logger.error(*args, **kwargs)
 
     def fatal(self, *args, **kwargs):
+        """Overloaded critical log function"""
         self.logger.critical(*args, **kwargs)
 
 
