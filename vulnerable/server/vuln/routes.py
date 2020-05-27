@@ -8,13 +8,22 @@ from server.database.utils.db_search import db_search
 
 @vulns.route("/", methods=["GET"])
 def index():
-    """Renders the homepage"""
+    """Renders the homepage
+
+    This is the homepage, it renders a simple welcome message.
+
+    """
     return render_template("index.html")
 
 
 @vulns.route("/search-get", methods=["GET"])
 def search_get():
-    """Standard search using GET method by last_name"""
+    """Standard search using GET method by last_name
+
+    This is the standard search using the GET method in the form,
+    along with the search parameter which is by last_name.
+
+    """
     if request.method == "GET" and request.query_string:
         raw_query = request.query_string.decode("utf-8")
         query_dict = {}
@@ -32,7 +41,12 @@ def search_get():
 
 @vulns.route("/search-get-blind", methods=["GET"])
 def search_get_blind():
-    """Blind search using GET method by id"""
+    """Blind search using GET method by id
+
+    This is the blind search using the GET method in the form, along
+    with the search parameter which is id.
+
+    """
     if request.method == "GET" and request.query_string:
         raw_query = request.query_string.decode("utf-8")
         query_dict = {}
@@ -49,7 +63,12 @@ def search_get_blind():
 
 @vulns.route("/search-post", methods=["GET", "POST"])
 def search_post():
-    """Standard search using POST method by id"""
+    """Standard search using POST method by id
+
+    This is the standard search using the POST method in the form, along
+    with the search parameter which is id.
+
+    """
     if request.method == "POST":
         query = request.form.get("id")
         if query:
@@ -60,7 +79,12 @@ def search_post():
 
 @vulns.route("/search-post-blind", methods=["GET", "POST"])
 def search_post_blind():
-    """Blind search using POST method by last_name"""
+    """Blind search using POST method by last_name
+
+    This is the blind search using the POST method in the form, along
+    with the search parameter which is last_name.
+
+    """
     if request.method == "POST":
         query = request.form.get("last_name")
         if query:

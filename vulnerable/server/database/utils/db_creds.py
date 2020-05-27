@@ -3,7 +3,17 @@ import json
 
 
 def _load_creds(filename):
-    """Returns the credentials from file as a JSON dictionary"""
+    """Returns the credentials from file as a JSON dictionary
+
+    Loads a file and deserializes a JSON object from the file data.
+
+    Args:
+        filename (str): the file name / full path to read data from
+
+    Returns:
+        dict: returns the file contents as a JSON dictionary
+
+    """
     filedirs = __file__.split("/")[:-1] + ["..", "creds"]
     filepath = "/".join(filedirs + [filename])
     with open(filepath, "r") as file:
