@@ -7,7 +7,20 @@ from server.database.utils.db_data import load_users
 
 
 def wait_for_service(max_wait_time=20):
-    """Waits for the MySQL service to accept transactions"""
+    """Waits for the MySQL service to accept transactions
+
+    There is a slight timing issue when the docker container for the MySQL
+    service, this function will wait for a specified number of seconds
+    so the service has enough time to come online.
+
+    Args:
+        max_wait_time (:obj:`int`, optional): the number of seconds to wait before
+            throwing an exception for lack of an accepted database connection
+
+    Raises:
+        MySQLdb._exceptions.OperationalError: if database connection fails
+
+    """
     elapsed_time = 0
     while True:
         elapsed_time += 1
@@ -23,7 +36,17 @@ def wait_for_service(max_wait_time=20):
 
 
 def reinit_db():
-    """Drops and recreates the database and table schema from scratch"""
+    """Drops and recreates the database and table schema from scratch
+
+    Drops the vuln_db database if it exists, selects all MySQL users from the
+    mysql.user table in search of vuln_user, drops the vuln_user if the user
+    exists, creates the database, creates the user, and grants the user
+    privileges.
+
+    Raises:
+        MySQLdb._exceptions.OperationalError: if database connection fails
+
+    """
     try:
         db_obj = MySQLdb.connect(**ROOT_CREDS)
         cur = db_obj.cursor()
@@ -41,7 +64,19 @@ def reinit_db():
 
 
 def populate_db(db_size):
-    """Populates the database with a variable amount of users"""
+    """Populates the database with a variable amount of users
+
+    Given a specified number of total users, the function will load
+    all the users into a list of tuples, iterate through that list, and
+    inserting them as values into the users table.
+
+    Args:
+        db_size (int): the number of users to populate the database with
+
+    Raises:
+        MySQLdb._exceptions.OperationalError: if database connection fails
+
+    """
     try:
         db_obj = MySQLdb.connect(**USER_CREDS)
         cur = db_obj.cursor()
@@ -62,7 +97,16 @@ CREATE TABLE users(
 
 
 def db_prep(db_size):
-    """Wraps the needed functions in a single master routine"""
+    """Wraps the needed functions in a single master routine
+
+    This is the main backbone of the server, it will wait for the MySQL
+    service to come online, it will reinitialize the remote database, and
+    it will populate the database.
+
+    Args:
+        db_size (int): the number of users to populate into the database with
+
+    """
     wait_for_service()
     reinit_db()
     populate_db(db_size)
