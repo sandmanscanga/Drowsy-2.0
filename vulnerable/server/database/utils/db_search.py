@@ -3,7 +3,7 @@
 
 import json
 
-import MySQLdb
+import mysql.connector
 
 from server.logger.main import LOGGER
 from server.database.utils.db_creds import USER_CREDS
@@ -34,7 +34,8 @@ def db_search(query: str, by_name: bool = True) -> list:
     """
 
     try:
-        db_obj = MySQLdb.connect(**USER_CREDS)
+        mysql.connector.connect()
+        db_obj = mysql.connector.connect(**USER_CREDS)
         cur = db_obj.cursor()
 
         if by_name:
@@ -51,6 +52,6 @@ def db_search(query: str, by_name: bool = True) -> list:
         rows = cur.fetchall()
 
         return rows
-    except MySQLdb._exceptions.OperationalError as err:
+    except Exception as err:
         logger.error(str(err))
         raise err

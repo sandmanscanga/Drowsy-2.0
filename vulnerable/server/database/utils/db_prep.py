@@ -3,7 +3,7 @@
 
 import time
 
-import MySQLdb
+import mysql.connector
 
 from server.database.utils.db_creds import ROOT_CREDS, USER_CREDS
 from server.database.utils.db_data import load_users
@@ -24,7 +24,7 @@ def wait_for_service(max_wait_time: int = 20) -> None:
                                               connection
 
     Raises:
-        MySQLdb._exceptions.OperationalError: if database connection fails
+        Exception: if database connection fails
 
     """
     elapsed_time = 0
@@ -33,8 +33,8 @@ def wait_for_service(max_wait_time: int = 20) -> None:
         if elapsed_time >= max_wait_time:
             raise Exception("Max wait time reached waiting for service")
         try:
-            db_obj = MySQLdb.connect(**ROOT_CREDS)
-        except MySQLdb._exceptions.OperationalError:
+            db_obj = mysql.connector.connect(**ROOT_CREDS)
+        except Exception:
             time.sleep(1)
         else:
             db_obj.close()
@@ -51,12 +51,12 @@ def reinit_db() -> None:
     privileges.
 
     Raises:
-        MySQLdb._exceptions.OperationalError: if database connection fails
+        Exception: if database connection fails
 
     """
 
     try:
-        db_obj = MySQLdb.connect(**ROOT_CREDS)
+        db_obj = mysql.connector.connect(**ROOT_CREDS)
         cur = db_obj.cursor()
 
         cur.execute("DROP DATABASE IF EXISTS vuln_db;")
@@ -71,7 +71,7 @@ def reinit_db() -> None:
 
         cur.execute("FLUSH PRIVILEGES;")
         db_obj.close()
-    except MySQLdb._exceptions.OperationalError as err:
+    except Exception as err:
         raise err
 
 
@@ -87,12 +87,12 @@ def populate_db(db_size: int) -> None:
         db_size (int): the number of users to populate the database with
 
     Raises:
-        MySQLdb._exceptions.OperationalError: if database connection fails
+        Exception: if database connection fails
 
     """
 
     try:
-        db_obj = MySQLdb.connect(**USER_CREDS)
+        db_obj = mysql.connector.connect(**USER_CREDS)
         cur = db_obj.cursor()
 
         cur.execute("DROP TABLE IF EXISTS users;")
@@ -111,7 +111,7 @@ CREATE TABLE users(
 
         db_obj.commit()
         db_obj.close()
-    except MySQLdb._exceptions.OperationalError as err:
+    except Exception as err:
         raise err
 
 
